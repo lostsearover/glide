@@ -43,12 +43,12 @@ public class Registry {
   private static final String BUCKET_PREPEND_ALL = "legacy_prepend_all";
   private static final String BUCKET_APPEND_ALL = "legacy_append";
 
-  private final ModelLoaderRegistry modelLoaderRegistry;
-  private final EncoderRegistry encoderRegistry;
-  private final ResourceDecoderRegistry decoderRegistry;
+  private final ModelLoaderRegistry modelLoaderRegistry; // model加载器,可以得到解码器可以解码的数据类型，例如: InputStream. 用的比较多的有： StringLoader、UrlUriLoader、HttpGlideUrlLoader
+  private final EncoderRegistry encoderRegistry; // data编码器，负责把某类数据写入文件，比方把InputStream写入文件
+  private final ResourceDecoderRegistry decoderRegistry; // 资源解码器，可以解码某种类型的资源，例如: ByteBufferBitmapDecoder.class : ByteBuffer.class -> Bitmap.class
   private final ResourceEncoderRegistry resourceEncoderRegistry;
   private final DataRewinderRegistry dataRewinderRegistry;
-  private final TranscoderRegistry transcoderRegistry;
+  private final TranscoderRegistry transcoderRegistry;// 资源转码器,例如: BitmapDrawableTranscoder.class : Bitmap.class -> BitmapDrawable.class
   private final ImageHeaderParserRegistry imageHeaderParserRegistry;
 
   private final ModelToResourceClassCache modelToResourceClassCache =
@@ -497,10 +497,12 @@ public class Registry {
       @NonNull Class<TResource> resourceClass,
       @NonNull Class<Transcode> transcodeClass) {
     List<DecodePath<Data, TResource, Transcode>> decodePaths = new ArrayList<>();
+    // 找出可以从dataClass转到resourceClass的所有resourceClass以及它的子类
     List<Class<TResource>> registeredResourceClasses =
         decoderRegistry.getResourceClasses(dataClass, resourceClass);
 
     for (Class<TResource> registeredResourceClass : registeredResourceClasses) {
+      // 找出可以从registeredResourceClass转到transcodeClass的所有TranscodeClasses以及它的子类
       List<Class<Transcode>> registeredTranscodeClasses =
           transcoderRegistry.getTranscodeClasses(registeredResourceClass, transcodeClass);
 

@@ -1,5 +1,6 @@
 package com.bumptech.glide.load.engine;
 
+import android.util.Log;
 import com.bumptech.glide.GlideContext;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.Registry;
@@ -142,11 +143,21 @@ final class DecodeHelper<Transcode> {
         .getRegisteredResourceClasses(model.getClass(), resourceClass, transcodeClass);
   }
 
+  @SuppressWarnings({"rawtypes", "unchecked"})
   boolean hasLoadPath(Class<?> dataClass) {
-    return getLoadPath(dataClass) != null;
+    LoadPath loadPath =  getLoadPath(dataClass);
+    List<DecodePath> decodePaths = loadPath.decodePaths;
+    if (decodePaths != null) {
+      for (DecodePath decodePath : decodePaths) {
+        Log.i("HUANGPENG", "dataClass: " + decodePath.dataClass + ", resourceClass: " + decodePath.resourceClass + ", transcodeClass: " + decodePath.transcodeClass);
+      }
+    }
+    return loadPath != null;
   }
 
+  // 搜索dataClass -> resourceClass -> transcodeClass 这条路径
   <Data> LoadPath<Data, ?, Transcode> getLoadPath(Class<Data> dataClass) {
+    Log.i("HUANGPENG", "dataClass: " + dataClass + ", resourceClass: " + resourceClass + ", transcodeClass: " + transcodeClass);
     return glideContext.getRegistry().getLoadPath(dataClass, resourceClass, transcodeClass);
   }
 

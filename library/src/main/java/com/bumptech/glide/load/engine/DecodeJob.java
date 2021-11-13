@@ -384,7 +384,7 @@ class DecodeJob<R>
     this.currentDataSource = dataSource;
     this.currentAttemptingKey = attemptedKey;
     this.isLoadingFromAlternateCacheKey = sourceKey != decodeHelper.getCacheKeys().get(0);
-
+    Log.i("HUANGPENG", "onDataFetcherReady: " + currentData.getClass() + ", fetcher: " + currentFetcher.getClass());
     if (Thread.currentThread() != currentThread) {
       runReason = RunReason.DECODE_DATA;
       callback.reschedule(this);

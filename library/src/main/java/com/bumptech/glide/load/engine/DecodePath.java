@@ -22,7 +22,9 @@ import java.util.List;
  */
 public class DecodePath<DataType, ResourceType, Transcode> {
   private static final String TAG = "DecodePath";
-  private final Class<DataType> dataClass;
+  public final Class<DataType> dataClass;
+  public Class<ResourceType> resourceClass;
+  public Class<Transcode> transcodeClass;
   private final List<? extends ResourceDecoder<DataType, ResourceType>> decoders;
   private final ResourceTranscoder<ResourceType, Transcode> transcoder;
   private final Pool<List<Throwable>> listPool;
@@ -36,6 +38,8 @@ public class DecodePath<DataType, ResourceType, Transcode> {
       ResourceTranscoder<ResourceType, Transcode> transcoder,
       Pool<List<Throwable>> listPool) {
     this.dataClass = dataClass;
+    this.resourceClass = resourceClass;
+    this.transcodeClass = transcodeClass;
     this.decoders = decoders;
     this.transcoder = transcoder;
     this.listPool = listPool;

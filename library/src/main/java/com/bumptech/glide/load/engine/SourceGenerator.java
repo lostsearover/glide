@@ -133,12 +133,13 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcherGenerator.Fetc
     boolean isLoadingFromSourceData = false;
     try {
       DataRewinder<Object> rewinder = helper.getRewinder(dataToCache);
-      Object data = rewinder.rewindAndGet();
-      Encoder<Object> encoder = helper.getSourceEncoder(data);
+      Object data = rewinder.rewindAndGet(); // InputStream -> RecyclableBufferedInputStream
+      Encoder<Object> encoder = helper.getSourceEncoder(data); // StreamEncoder RecyclableBufferedInputStream -> File
+      // Stream -> File
       DataCacheWriter<Object> writer = new DataCacheWriter<>(encoder, data, helper.getOptions());
       DataCacheKey newOriginalKey = new DataCacheKey(loadData.sourceKey, helper.getSignature());
       DiskCache diskCache = helper.getDiskCache();
-      diskCache.put(newOriginalKey, writer);
+      diskCache.put(newOriginalKey, writer); // 真正写入Data Cache
       if (Log.isLoggable(TAG, Log.VERBOSE)) {
         Log.v(
             TAG,

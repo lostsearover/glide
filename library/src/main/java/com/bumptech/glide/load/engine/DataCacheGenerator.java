@@ -1,5 +1,6 @@
 package com.bumptech.glide.load.engine;
 
+import android.util.Log;
 import androidx.annotation.NonNull;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.Key;
@@ -60,7 +61,7 @@ class DataCacheGenerator implements DataFetcherGenerator, DataFetcher.DataCallba
         cacheFile = helper.getDiskCache().get(originalKey);
         if (cacheFile != null) {
           this.sourceKey = sourceId;
-          modelLoaders = helper.getModelLoaders(cacheFile);
+          modelLoaders = helper.getModelLoaders(cacheFile); // 找到所有能加载文件的加载器
           modelLoaderIndex = 0;
         }
       }
@@ -68,6 +69,10 @@ class DataCacheGenerator implements DataFetcherGenerator, DataFetcher.DataCallba
       loadData = null;
       boolean started = false;
       while (!started && hasNextModelLoader()) {
+        // 遍历能加载文件的加载器
+        // ByteBufferFileLoader : File -> ByteBuffer
+        // ByteBufferFetcher
+        // Data: ByteBuffer.class
         ModelLoader<File, ?> modelLoader = modelLoaders.get(modelLoaderIndex++);
         loadData =
             modelLoader.buildLoadData(

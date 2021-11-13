@@ -23,7 +23,7 @@ import java.util.List;
 public class LoadPath<Data, ResourceType, Transcode> {
   private final Class<Data> dataClass;
   private final Pool<List<Throwable>> listPool;
-  private final List<? extends DecodePath<Data, ResourceType, Transcode>> decodePaths;
+  public final List<? extends DecodePath<Data, ResourceType, Transcode>> decodePaths;
   private final String failureMessage;
 
   public LoadPath(
