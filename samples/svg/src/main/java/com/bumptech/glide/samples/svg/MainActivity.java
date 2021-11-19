@@ -40,7 +40,9 @@ public class MainActivity extends Activity {
             .transition(withCrossFade())
             .listener(new SvgSoftwareLayerSetter());
     ImageView imageView = findViewById(R.id.icon);
-    Glide.with(this).load("http://gate.img.zhongnenghe.cn/2021111314503584494.jpeg").into(imageView);
+    Glide.with(this).load("http://gate.img.zhongnenghe.cn/2021111314503584494.jpeg").override(50, 50).into(imageView);
+//
+//    Glide.with(this).load(R.mipmap.ic_launcher).override(50, 50).into(imageView);
   }
 
   @Override

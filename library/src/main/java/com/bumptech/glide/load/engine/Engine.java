@@ -185,6 +185,8 @@ public class Engine
             transcodeClass,
             options);
 
+    Log.d("HUANGPENG", "key: " + key);
+
     EngineResource<?> memoryResource;
     synchronized (this) {
       memoryResource = loadFromMemory(key, isMemoryCacheable, startTime);

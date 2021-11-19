@@ -290,10 +290,13 @@ class DecodeJob<R>
   private DataFetcherGenerator getNextGenerator() {
     switch (stage) {
       case RESOURCE_CACHE:
+        Log.d(TAG, "Getting from RESOURCE_CACHE");
         return new ResourceCacheGenerator(decodeHelper, this);
       case DATA_CACHE:
+        Log.d(TAG, "Getting from DATA_CACHE");
         return new DataCacheGenerator(decodeHelper, this);
       case SOURCE:
+        Log.d(TAG, "Getting from SOURCE");
         return new SourceGenerator(decodeHelper, this);
       case FINISHED:
         return null;
@@ -349,6 +352,7 @@ class DecodeJob<R>
   }
 
   private Stage getNextStage(Stage current) {
+    Log.d(TAG, "decodeCachedResource: " + diskCacheStrategy.decodeCachedResource() + ", decodeCachedData: " + diskCacheStrategy.decodeCachedData());
     switch (current) {
       case INITIALIZE:
         return diskCacheStrategy.decodeCachedResource()
@@ -384,7 +388,7 @@ class DecodeJob<R>
     this.currentDataSource = dataSource;
     this.currentAttemptingKey = attemptedKey;
     this.isLoadingFromAlternateCacheKey = sourceKey != decodeHelper.getCacheKeys().get(0);
-    Log.i("HUANGPENG", "onDataFetcherReady: " + currentData.getClass() + ", fetcher: " + currentFetcher.getClass());
+    Log.i(TAG, "onDataFetcherReady: " + currentData + ", fetcher: " + currentFetcher + ", source: " + dataSource + ", key: " + attemptedKey);
     if (Thread.currentThread() != currentThread) {
       runReason = RunReason.DECODE_DATA;
       callback.reschedule(this);
@@ -619,7 +623,7 @@ class DecodeJob<R>
       LockedResource<Z> lockedResult = LockedResource.obtain(transformed);
       deferredEncodeManager.init(key, encoder, lockedResult);
       result = lockedResult;
-    }
+    } else Log.d(TAG, "Do need cache " + result);
     return result;
   }
 
