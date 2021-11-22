@@ -9,6 +9,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.nfc.Tag;
+import android.util.Log;
 import android.widget.ImageView;
 import androidx.annotation.CheckResult;
 import androidx.annotation.DrawableRes;
@@ -61,7 +63,7 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
           .diskCacheStrategy(DiskCacheStrategy.DATA)
           .priority(Priority.LOW)
           .skipMemoryCache(true);
-
+  private static final String TAG = "RequestBuilder";
   private final Context context;
   private final RequestManager requestManager;
   private final Class<TranscodeType> transcodeClass;
@@ -868,7 +870,7 @@ public class RequestBuilder<TranscodeType> extends BaseRequestOptions<RequestBui
           // Do nothing.
       }
     }
-
+    Log.d(TAG, "transcodeClass: " + transcodeClass);
     return into(
         glideContext.buildImageViewTarget(view, transcodeClass),
         /*targetListener=*/ null,

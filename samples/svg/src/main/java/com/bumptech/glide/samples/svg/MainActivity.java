@@ -32,23 +32,23 @@ public class MainActivity extends Activity {
     imageViewRes = (ImageView) findViewById(R.id.svg_image_view1);
     imageViewNet = (ImageView) findViewById(R.id.svg_image_view2);
 
-    requestBuilder =
-        GlideApp.with(this)
-            .as(PictureDrawable.class)
-            .placeholder(R.drawable.image_loading)
-            .error(R.drawable.image_error)
-            .transition(withCrossFade())
-            .listener(new SvgSoftwareLayerSetter());
+//    requestBuilder =
+//        GlideApp.with(this)
+//            .as(PictureDrawable.class)
+//            .placeholder(R.drawable.image_loading)
+//            .error(R.drawable.image_error)
+//            .transition(withCrossFade())
+//            .listener(new SvgSoftwareLayerSetter());
     ImageView imageView = findViewById(R.id.icon);
-    Glide.with(this).load("http://gate.img.zhongnenghe.cn/2021111314503584494.jpeg").override(50, 50).into(imageView);
-//
-//    Glide.with(this).load(R.mipmap.ic_launcher).override(50, 50).into(imageView);
+//    Glide.with(this).load("http://gate.img.zhongnenghe.cn/2021111314503584494.jpeg").override(50, 50).into(imageView);
+
+    Glide.with(this).load(R.mipmap.ic_launcher).override(50, 50).into(imageView);
   }
 
   @Override
   protected void onStart() {
     super.onStart();
-    reload();
+//    reload();
   }
 
   public void clearCache(View v) {
