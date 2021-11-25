@@ -456,7 +456,7 @@ public class Glide implements ComponentCallbacks2 {
           Bitmap.class,
           new ParcelFileDescriptorBitmapDecoder(downsampler));
     }
-
+    // 添加解码器
     registry
         .append(
             Registry.BUCKET_BITMAP,
@@ -523,15 +523,15 @@ public class Glide implements ComponentCallbacks2 {
     if (ParcelFileDescriptorRewinder.isSupported()) {
       registry.register(new ParcelFileDescriptorRewinder.Factory());
     }
-
+    // 添加数据加载器
     registry
         .append(int.class, InputStream.class, resourceLoaderStreamFactory)
         .append(int.class, ParcelFileDescriptor.class, resourceLoaderFileDescriptorFactory)
-        .append(Integer.class, InputStream.class, resourceLoaderStreamFactory)
-        .append(Integer.class, ParcelFileDescriptor.class, resourceLoaderFileDescriptorFactory)
-        .append(Integer.class, Uri.class, resourceLoaderUriFactory)
+        .append(Integer.class, InputStream.class, resourceLoaderStreamFactory) // 资源加载器
+        .append(Integer.class, ParcelFileDescriptor.class, resourceLoaderFileDescriptorFactory) // 资源加载器
+        .append(Integer.class, Uri.class, resourceLoaderUriFactory) // 资源加载器
         .append(int.class, AssetFileDescriptor.class, resourceLoaderAssetFileDescriptorFactory)
-        .append(Integer.class, AssetFileDescriptor.class, resourceLoaderAssetFileDescriptorFactory)
+        .append(Integer.class, AssetFileDescriptor.class, resourceLoaderAssetFileDescriptorFactory) // 资源加载器
         .append(int.class, Uri.class, resourceLoaderUriFactory)
         .append(String.class, InputStream.class, new DataUrlLoader.StreamFactory<String>())
         .append(Uri.class, InputStream.class, new DataUrlLoader.StreamFactory<Uri>())

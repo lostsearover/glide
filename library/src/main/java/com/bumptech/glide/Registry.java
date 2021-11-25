@@ -46,10 +46,10 @@ public class Registry {
   private final ModelLoaderRegistry modelLoaderRegistry; // model加载器,可以得到解码器可以解码的数据类型，例如: InputStream. 用的比较多的有： StringLoader、UrlUriLoader、HttpGlideUrlLoader
   private final EncoderRegistry encoderRegistry; // data编码器，负责把某类数据写入文件，比方把InputStream写入文件
   private final ResourceDecoderRegistry decoderRegistry; // 资源解码器，可以解码某种类型的资源，例如: ByteBufferBitmapDecoder.class : ByteBuffer.class -> Bitmap.class
-  private final ResourceEncoderRegistry resourceEncoderRegistry;
-  private final DataRewinderRegistry dataRewinderRegistry;
+  private final ResourceEncoderRegistry resourceEncoderRegistry; // 资源编码器，负责把资源编码写入永久性存储，例如写入文件
+  private final DataRewinderRegistry dataRewinderRegistry; // 负责流类型的数据倒带，复位。 Responsible for rewinding a stream like data types
   private final TranscoderRegistry transcoderRegistry;// 资源转码器,例如: BitmapDrawableTranscoder.class : Bitmap.class -> BitmapDrawable.class
-  private final ImageHeaderParserRegistry imageHeaderParserRegistry;
+  private final ImageHeaderParserRegistry imageHeaderParserRegistry; // 图片头解析
 
   private final ModelToResourceClassCache modelToResourceClassCache =
       new ModelToResourceClassCache();
