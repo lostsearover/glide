@@ -60,9 +60,9 @@ public class DecodePath<DataType, ResourceType, Transcode> {
       @NonNull Options options,
       DecodeCallback<ResourceType> callback)
       throws GlideException {
-    Resource<ResourceType> decoded = decodeResource(rewinder, width, height, options);
-    Resource<ResourceType> transformed = callback.onResourceDecoded(decoded);
-    return transcoder.transcode(transformed, options);
+    Resource<ResourceType> decoded = decodeResource(rewinder, width, height, options);// Data -> Resource Type
+    Resource<ResourceType> transformed = callback.onResourceDecoded(decoded); // 经过类似大小转换之后的 Resource Type
+    return transcoder.transcode(transformed, options); // Transcode Type, 对资源做最后的转换
   }
 
   @NonNull

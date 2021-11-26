@@ -124,6 +124,7 @@ public class MultiModelLoaderFactory {
     return result;
   }
 
+  // 返回符合 Model -> Data 配对的ModelLoader
   @NonNull
   public synchronized <Model, Data> ModelLoader<Model, Data> build(
       @NonNull Class<Model> modelClass, @NonNull Class<Data> dataClass) {

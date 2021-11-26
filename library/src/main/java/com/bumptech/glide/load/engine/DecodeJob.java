@@ -391,7 +391,7 @@ class DecodeJob<R>
     Log.i(TAG, "onDataFetcherReady: " + currentData + ", fetcher: " + currentFetcher + ", source: " + dataSource + ", key: " + attemptedKey);
     if (Thread.currentThread() != currentThread) {
       runReason = RunReason.DECODE_DATA;
-      callback.reschedule(this);
+      callback.reschedule(this); // 再次走startNext
     } else {
       GlideTrace.beginSection("DecodeJob.decodeFromRetrievedData");
       try {
@@ -431,12 +431,14 @@ class DecodeJob<R>
     }
     Resource<R> resource = null;
     try {
+      // Data -> Resource
       resource = decodeFromData(currentFetcher, currentData, currentDataSource);
     } catch (GlideException e) {
       e.setLoggingDetails(currentAttemptingKey, currentDataSource);
       throwables.add(e);
     }
     if (resource != null) {
+      // 进行资源编码
       notifyEncodeAndRelease(resource, currentDataSource, isLoadingFromAlternateCacheKey);
     } else {
       runGenerators();
@@ -457,13 +459,13 @@ class DecodeJob<R>
         lockedResource = LockedResource.obtain(resource);
         result = lockedResource;
       }
-
+      // 通过资源加载完毕，最后呈现到View上面
       notifyComplete(result, dataSource, isLoadedFromAlternateCacheKey);
 
       stage = Stage.ENCODE;
       try {
         if (deferredEncodeManager.hasResourceToEncode()) {
-          deferredEncodeManager.encode(diskCacheProvider, options);
+          deferredEncodeManager.encode(diskCacheProvider, options); /** 把Resource写入缓存 */
         }
       } finally {
         if (lockedResource != null) {
@@ -621,9 +623,9 @@ class DecodeJob<R>
       }
 
       LockedResource<Z> lockedResult = LockedResource.obtain(transformed);
-      deferredEncodeManager.init(key, encoder, lockedResult);
+      deferredEncodeManager.init(key, encoder, lockedResult); // 初始化后面缓存Resource用到的一些东西，以便后面进行Resource缓存
       result = lockedResult;
-    } else Log.d(TAG, "Do need cache " + result);
+    } else Log.d(TAG, "Do not need cache " + result);
     return result;
   }
 

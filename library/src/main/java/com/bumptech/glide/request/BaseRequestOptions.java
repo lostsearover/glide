@@ -71,6 +71,7 @@ public abstract class BaseRequestOptions<T extends BaseRequestOptions<T>> implem
 
   private int fields;
   private float sizeMultiplier = 1f;
+  // 默认缓存策略
   @NonNull private DiskCacheStrategy diskCacheStrategy = DiskCacheStrategy.AUTOMATIC;
   @NonNull private Priority priority = Priority.NORMAL;
   @Nullable private Drawable errorPlaceholder;

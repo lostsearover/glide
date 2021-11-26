@@ -71,7 +71,7 @@ class SourceGenerator implements DataFetcherGenerator, DataFetcherGenerator.Fetc
         }
       }
     }
-
+    // 直接跳Data缓存产生器，使用Data缓存
     if (sourceCacheGenerator != null && sourceCacheGenerator.startNext()) {
       return true;
     }
